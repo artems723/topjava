@@ -25,7 +25,7 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
-        List<UserMealWithExceed> list = getFilteredWithExceededByStream(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+        List<UserMealWithExceed> list = getFilteredWithExceededON(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
 //        .toLocalDate();
 //        .toLocalTime();
         for (UserMealWithExceed um : list) {
@@ -56,9 +56,7 @@ public class UserMealsUtil {
         Map<LocalDate, Integer> map = new HashMap<>();
         for (UserMeal um : mealList) {
             LocalDate date = um.getDateTime().toLocalDate();
-            int calories = um.getCalories();
-            int value = 0;
-            if (map.containsKey(date)) value += map.get(date) + calories;
+            int value = (map.getOrDefault(date, 0) + um.getCalories());
             map.put(date, value);
         }
 
