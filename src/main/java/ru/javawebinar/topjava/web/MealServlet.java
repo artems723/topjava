@@ -51,7 +51,7 @@ public class MealServlet extends HttpServlet {
                 int mealId = Integer.parseInt(request.getParameter("mealId"));
                 dao.deleteMeal(mealId);
                 forward = LIST_MEAL;
-                request.setAttribute("mealList", MealsUtil.getAllMealWithExceed(2000, dao));
+                request.setAttribute("mealList", MealsUtil.getAllMealWithExceed(MealsUtil.DEFAULT_CALORIES_PER_DAY, dao));
             } else if (action.equalsIgnoreCase("edit")) {
                 int mealId = Integer.parseInt(request.getParameter("mealId"));
                 forward = INSERT_OR_EDIT;
@@ -62,7 +62,7 @@ public class MealServlet extends HttpServlet {
             }
         } else {
             forward = LIST_MEAL;
-            request.setAttribute("mealList", MealsUtil.getAllMealWithExceed(2000, dao));
+            request.setAttribute("mealList", MealsUtil.getAllMealWithExceed(MealsUtil.DEFAULT_CALORIES_PER_DAY, dao));
         }
 
         request.getRequestDispatcher(forward).forward(request, response);
@@ -83,7 +83,7 @@ public class MealServlet extends HttpServlet {
             meal.setId(Integer.parseInt(mealId));
             dao.updateMeal(meal);
         }
-        req.setAttribute("mealList", MealsUtil.getAllMealWithExceed(2000, dao));
+        req.setAttribute("mealList", MealsUtil.getAllMealWithExceed(MealsUtil.DEFAULT_CALORIES_PER_DAY, dao));
         req.getRequestDispatcher(LIST_MEAL).forward(req, resp);
 
     }
