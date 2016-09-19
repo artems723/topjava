@@ -2,12 +2,19 @@ package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.to.MealWithExceed;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * GKislin
@@ -25,6 +32,11 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    public Meal update(Meal meal, int userId) throws NotFoundException {
+        return ExceptionUtil.checkNotFound(repository.save(meal, userId), "id =" + meal.getId());
+    }
+
+    @Override
     public void delete(int id, int userId) throws NotFoundException {
         ExceptionUtil.checkNotFoundWithId(repository.delete(id, userId), id);
     }
@@ -35,12 +47,16 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Collection<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+    public List<MealWithExceed> getAll(int userId) {
+        List<Meal> list = repository.getAll(userId);
+        return MealsUtil.getWithExceeded(list, AuthorizedUser.getCaloriesPerDay());
     }
 
     @Override
-    public Meal update(Meal meal, int userId) throws NotFoundException {
-        return ExceptionUtil.checkNotFound(repository.save(meal, userId), "id =" + meal.getId());
+    public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, int userId) {
+        LocalDateTime start = LocalDateTime.of(startDate, startTime);
+        LocalDateTime end = LocalDateTime.of(endDate, endTime);
+        List<Meal> list = repository.getBetween(start, end, userId);
+        return MealsUtil.getWithExceeded(list, AuthorizedUser.getCaloriesPerDay());
     }
 }

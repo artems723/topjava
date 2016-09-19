@@ -43,7 +43,12 @@ public class MealServlet extends HttpServlet {
         adminUserController = appCtx.getBean(AdminRestController.class);
         mealController = appCtx.getBean(MealRestController.class);
         adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
-        mealController.save(new Meal(LocalDateTime.now(), "Завтрак чемпиона", 1000));
+        mealController.save(new Meal(LocalDateTime.now(), "Ужин чемпиона", 1000));
+        mealController.save(new Meal(LocalDateTime.now().minusHours(1), "Обед чемпиона", 1000));
+        mealController.save(new Meal(LocalDateTime.now().minusHours(2), "Завтрак чемпиона", 500));
+        mealController.save(new Meal(LocalDateTime.now().minusDays(1), "Ужин претендента", 800));
+        mealController.save(new Meal(LocalDateTime.now().minusDays(1).minusHours(1), "Обед претендента", 700));
+        mealController.save(new Meal(LocalDateTime.now().minusDays(1).minusHours(2), "Завтрак претендента", 500));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,8 +70,7 @@ public class MealServlet extends HttpServlet {
 
         if (action == null) {
             LOG.info("getAll");
-            request.setAttribute("mealList",
-                    MealsUtil.getWithExceeded(mealController.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+            request.setAttribute("mealList", mealController.getAll());
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {

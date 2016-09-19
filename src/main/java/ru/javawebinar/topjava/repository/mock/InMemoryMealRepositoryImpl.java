@@ -50,7 +50,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll(int userId) {
+    public List<Meal> getAll(int userId) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals==null ?
                 Collections.emptyList() :
@@ -58,7 +58,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+    public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         Objects.requireNonNull(startDateTime);
         Objects.requireNonNull(endDateTime);
         return getAll(userId).stream().filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDateTime, endDateTime)).collect(Collectors.toList());
