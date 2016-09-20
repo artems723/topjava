@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.AuthorizedUser;
@@ -7,6 +9,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.to.MealWithExceed;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -15,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -22,6 +26,7 @@ import java.util.List;
  */
 @Service
 public class MealServiceImpl implements MealService {
+    protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MealRepository repository;
@@ -56,7 +61,8 @@ public class MealServiceImpl implements MealService {
     public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, int userId) {
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        List<Meal> list = repository.getBetween(start, end, userId);
-        return MealsUtil.getWithExceeded(list, AuthorizedUser.getCaloriesPerDay());
+        List<MealWithExceed> list1 = getAll(userId);
+        LOG.info("getBetween, startDateTime: " + start + " ,endDateTime: " + end);
+        return list1.stream().filter(mealWithExceed -> TimeUtil.isBetween(mealWithExceed.getDateTime(), start, end)).collect(Collectors.toList());
     }
 }

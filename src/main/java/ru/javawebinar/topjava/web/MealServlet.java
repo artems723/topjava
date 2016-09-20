@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -85,6 +87,18 @@ public class MealServlet extends HttpServlet {
                     mealController.get(getId(request));
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
+        } else if ("filter".equals(action)) {
+            String startDate = request.getParameter("startDate");
+            String startTime = request.getParameter("startTime");
+            String endDate = request.getParameter("endDate");
+            String endTime = request.getParameter("endTime");
+            LocalDate sDate = (!startDate.isEmpty()) ? LocalDate.parse(startDate) : LocalDate.MIN;
+            LocalTime sTime = (!startTime.isEmpty()) ? LocalTime.parse(startTime) : LocalTime.MIN;
+            LocalDate eDate = (!endDate.isEmpty()) ? LocalDate.parse(endDate) : LocalDate.MAX;
+            LocalTime eTime = (!endTime.isEmpty()) ? LocalTime.parse(endTime) : LocalTime.MAX;
+            LOG.info("getBetween" + " ,startDate=" + startDate + " ,startTime=" + startTime + " ,endDate=" + endDate + " ,endTime=" + endTime);
+            request.setAttribute("mealList", mealController.getBetween(sDate, sTime, eDate, eTime));
+            request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         }
     }
 

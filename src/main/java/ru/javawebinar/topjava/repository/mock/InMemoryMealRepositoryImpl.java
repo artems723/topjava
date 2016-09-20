@@ -1,6 +1,9 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -57,11 +60,11 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
                 meals.values().stream().sorted((meal1, meal2) -> meal2.getDateTime().compareTo(meal1.getDateTime())).collect(Collectors.toList());
     }
 
-    @Override
-    public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        Objects.requireNonNull(startDateTime);
-        Objects.requireNonNull(endDateTime);
-        return getAll(userId).stream().filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDateTime, endDateTime)).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+//        Objects.requireNonNull(startDateTime);
+//        Objects.requireNonNull(endDateTime);
+//        return getAll(userId).stream().filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDateTime, endDateTime)).collect(Collectors.toList());
+//    }
 }
 

@@ -18,8 +18,34 @@
 <body>
 <section>
     <h2><a href="index.html">Home</a></h2>
+
+    <section>
+        <h3>Filter</h3>
+        <form method="get" action="meals">
+            <input type="hidden" value="filter" name="action">
+        <dl>
+            <dt>From Date</dt>
+            <dd><input type="date" id="startDate" name="startDate"></dd>
+        </dl>
+        <dl>
+            <dt>To Date</dt>
+            <dd><input type="date" id="endDate" name="endDate"></dd>
+        </dl>
+        <dl>
+            <dt>From Time</dt>
+            <dd><input type="time" id="startTime" name="startTime"></dd>
+        </dl>
+        <dl>
+            <dt>To Time</dt>
+            <dd><input type="time" id="endTime" name="endTime"></dd>
+        </dl>
+        <button type="submit">Filter</button>
+        <button onclick="location.href='meals'">Reset</button>
+        </form>
+    </section>
+
     <h3>Meal list</h3>
-    <a href="meals?action=create">Add Meal</a>
+    <a href="meals?action=create">Add meal</a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>

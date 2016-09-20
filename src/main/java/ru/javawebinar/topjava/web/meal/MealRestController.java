@@ -55,8 +55,8 @@ public class MealRestController {
         return service.getAll(AuthorizedUser.id());
     }
 
-    public List<MealWithExceed> getAll(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        LOG.info("getAll mealWithExceed,  userId: " + AuthorizedUser.id() + " ,startDate=" + startDate + " ,startTime=" + startTime + " ,endDate=" + endDate + " ,endTime=" + endTime);
+    public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        LOG.info("getBetween mealWithExceed,  userId: " + AuthorizedUser.id() + " ,startDate=" + startDate + " ,startTime=" + startTime + " ,endDate=" + endDate + " ,endTime=" + endTime);
         return service.getBetween(startDate, startTime, endDate, endTime, AuthorizedUser.id());
     }
 }
