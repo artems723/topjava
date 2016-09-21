@@ -25,23 +25,23 @@
             <input type="hidden" value="filter" name="action">
         <dl>
             <dt>From Date</dt>
-            <dd><input type="date" id="startDate" name="startDate"></dd>
+            <dd><input type="date" id="startDate" name="startDate" value=${startDate}></dd>
         </dl>
         <dl>
             <dt>To Date</dt>
-            <dd><input type="date" id="endDate" name="endDate"></dd>
+            <dd><input type="date" id="endDate" name="endDate" value=${endDate}></dd>
         </dl>
         <dl>
             <dt>From Time</dt>
-            <dd><input type="time" id="startTime" name="startTime"></dd>
+            <dd><input type="time" id="startTime" name="startTime" value=${startTime}></dd>
         </dl>
         <dl>
             <dt>To Time</dt>
-            <dd><input type="time" id="endTime" name="endTime"></dd>
+            <dd><input type="time" id="endTime" name="endTime" value=${endTime}></dd>
         </dl>
         <button type="submit">Filter</button>
-        <button onclick="location.href='meals'">Reset</button>
         </form>
+        <button onclick="location.href='meals'">Reset</button>
     </section>
 
     <h3>Meal list</h3>

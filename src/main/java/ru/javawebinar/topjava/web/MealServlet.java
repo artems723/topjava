@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -45,6 +46,7 @@ public class MealServlet extends HttpServlet {
         adminUserController = appCtx.getBean(AdminRestController.class);
         mealController = appCtx.getBean(MealRestController.class);
         adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
+        AuthorizedUser.setId(1);
         mealController.save(new Meal(LocalDateTime.now(), "Ужин чемпиона", 1000));
         mealController.save(new Meal(LocalDateTime.now().minusHours(1), "Обед чемпиона", 1000));
         mealController.save(new Meal(LocalDateTime.now().minusHours(2), "Завтрак чемпиона", 500));
@@ -97,6 +99,10 @@ public class MealServlet extends HttpServlet {
             LocalDate eDate = (!endDate.isEmpty()) ? LocalDate.parse(endDate) : LocalDate.MAX;
             LocalTime eTime = (!endTime.isEmpty()) ? LocalTime.parse(endTime) : LocalTime.MAX;
             LOG.info("getBetween" + " ,startDate=" + startDate + " ,startTime=" + startTime + " ,endDate=" + endDate + " ,endTime=" + endTime);
+            request.setAttribute("startDate", startDate);
+            request.setAttribute("startTime", startTime);
+            request.setAttribute("endDate", endDate);
+            request.setAttribute("endTime", endTime);
             request.setAttribute("mealList", mealController.getBetween(sDate, sTime, eDate, eTime));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         }
