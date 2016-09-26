@@ -52,6 +52,11 @@ public class ModelMatcher<T> {
         public String toString() {
             return String.valueOf(entity);
         }
+
+        @Override
+        public int hashCode() {
+            return 42;
+        }
     }
 
     public void assertEquals(T expected, T actual) {

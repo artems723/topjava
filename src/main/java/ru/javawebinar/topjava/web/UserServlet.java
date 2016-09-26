@@ -19,7 +19,7 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOG = getLogger(UserServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.valueOf(request.getParameter("userId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
         AuthorizedUser.setId(userId);
         response.sendRedirect("meals");
     }
