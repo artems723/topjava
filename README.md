@@ -1,4 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/CSZYvzMvg6e1r4j2CT6X)](https://www.codacy.com/app/artems723/topjava)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/feff40e89e184bdf857a74766b2405ed)](https://www.codacy.com/app/artem-staver/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=artems723/topjava&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/artems723/topjava.svg?branch=master)](https://travis-ci.org/artems723/topjava)
 [![Dependency Status](https://dependencyci.com/github/artems723/topjava/badge)](https://dependencyci.com/github/artems723/topjava)
 
