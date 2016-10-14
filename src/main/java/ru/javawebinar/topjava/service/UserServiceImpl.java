@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         return ExceptionUtil.checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
-    @Cacheable("users")
+//    @Cacheable("users")
     @Override
     public List<User> getAll() {
         return repository.getAll();
