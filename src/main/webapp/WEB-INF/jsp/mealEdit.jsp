@@ -8,7 +8,6 @@
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <section>
-    <h2><a href="${pageContext.request.contextPath}/"><fmt:message key="app.home"/></a></h2>
     <h3><fmt:message key="${meal.isNew() ? 'meal.create' : 'meal.edit'}"/></h3>
     <hr>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>

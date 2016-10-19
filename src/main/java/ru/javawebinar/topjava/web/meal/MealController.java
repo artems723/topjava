@@ -27,7 +27,7 @@ public class MealController extends AbstractMealController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(Model model, HttpServletRequest request) {
         super.delete(getId(request));
-        return "redirect:meals";
+        return "redirect:/meals";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -54,9 +54,9 @@ public class MealController extends AbstractMealController {
         if (request.getParameter("id").isEmpty()) {
             super.create(meal);
         } else {
-            super.update(meal, meal.getId());
+            super.update(meal, getId(request));
         }
-        return "redirect:meals";
+        return "redirect:/meals";
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
