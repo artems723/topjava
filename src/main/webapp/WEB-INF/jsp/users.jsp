@@ -4,7 +4,7 @@
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
-<link rel="stylesheet" href="webjars/datatables/1.10.12/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="webjars/datatables/1.10.12/css/dataTables.bootstrap.min.css">
 
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
@@ -37,11 +37,11 @@
                             <td>${user.roles}</td>
                             <td>
                                 <input type="checkbox"
-                                       <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/>
+                                       <c:if test="${user.enabled}">checked</c:if> onclick="enable($(this), ${user.id})"/>
                             </td>
                             <td><fmt:formatDate value="${user.registered}" pattern="dd-MMMM-yyyy"/></td>
-                            <td><a class="btn btn-xs btn-primary edit" id="${user.id}"><fmt:message key="common.update"/></a></td>
-                            <td><a class="btn btn-xs btn-danger delete" id="${user.id}"><fmt:message key="common.delete"/></a></td>
+                            <td><a class="btn btn-xs btn-primary"><fmt:message key="common.update"/></a></td>
+                            <td><a class="btn btn-xs btn-danger" onclick="deleteRow(${user.id})"><fmt:message key="common.delete"/></a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -56,39 +56,39 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title"><fmt:message key="users.edit"/></h2>
+                <h2 class="modal-title"><fmt:message key="users.add"/></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" method="post" id="detailsForm">
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="name" class="control-label col-xs-3">Name</label>
+                        <label for="name" class="control-label col-xs-3"><fmt:message key="users.name"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="<fmt:message key="users.name"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="control-label col-xs-3">Email</label>
+                        <label for="email" class="control-label col-xs-3"><fmt:message key="users.email"/></label>
 
                         <div class="col-xs-9">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="email">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="<fmt:message key="users.email"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="control-label col-xs-3">Password</label>
+                        <label for="password" class="control-label col-xs-3"><fmt:message key="users.password"/></label>
 
                         <div class="col-xs-9">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="<fmt:message key="users.password"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button class="btn btn-primary"  type="button" onclick="save()"><fmt:message key="common.save"/></button>
                         </div>
                     </div>
                 </form>
@@ -100,6 +100,7 @@
 <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="webjars/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script type="text/javascript" src="resources/js/datatablesUtil.js"></script>
 <script type="text/javascript">
@@ -107,42 +108,51 @@
     var ajaxUrl = 'ajax/admin/users/';
     var datatableApi;
 
+    function updateTable() {
+        $.get(ajaxUrl, updateTableByData);
+    }
+
     // $(document).ready(function () {
     $(function () {
-        datatableApi = $('#datatable').dataTable({
-            "bPaginate": false,
-            "bInfo": false,
-            "aoColumns": [
+        datatableApi = $('#datatable').DataTable({
+            "paging": false,
+            "info": true,
+            "columns": [
                 {
-                    "mData": "name"
+                    "data": "name"
                 },
                 {
-                    "mData": "email"
+                    "data": "email"
                 },
                 {
-                    "mData": "roles"
+                    "data": "roles"
                 },
                 {
-                    "mData": "enabled"
+                    "data": "enabled"
                 },
                 {
-                    "mData": "registered"
+                    "data": "registered"
                 },
                 {
-                    "sDefaultContent": "Edit",
-                    "bSortable": false
+                    "defaultContent": "<fmt:message key="common.update"/>",
+                    "orderable": false
                 },
                 {
-                    "sDefaultContent": "Delete",
-                    "bSortable": false
+                    "defaultContent": "<fmt:message key="common.delete"/>",
+                    "orderable": false
                 }
             ],
-            "aaSorting": [
+            "order": [
                 [
                     0,
                     "asc"
                 ]
             ]
+        });
+        $(':checkbox').each(function () {
+            if (!$(this).is(":checked")) {
+                $(this).closest('tr').css("opacity", 0.3);
+            }
         });
         makeEditable();
     });
